@@ -20,3 +20,5 @@ include "post-service"
 include "media-service"
 include "notification-service"
 
+include "common:kafka"
+

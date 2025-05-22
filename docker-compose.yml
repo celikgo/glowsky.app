@@ -1,0 +1,194 @@
+version: '3.8'
+
+services:
+  # Post Service
+  post-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - KAFKA_SERVERS=kafka:9092
+      - CASSANDRA_HOST=cassandra
+      - CASSANDRA_PORT=9042
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JAEGER_HOST=jaeger
+      - JAEGER_PORT=6831
+    depends_on:
+      - cassandra
+      - kafka
+      - redis
+      - jaeger
+    networks:
+      - glowsky-network
+
+  # Cassandra
+  cassandra:
+    image: cassandra:latest
+    platform: linux/arm64  # Use ARM64 platform for Apple Silicon
+    ports:
+      - "9042:9042"
+    environment:
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+      - CASSANDRA_CLUSTER_NAME=glowsky-cluster
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+    networks:
+      - glowsky-network
+
+  # Cassandra initialization
+  cassandra-init:
+    image: cassandra:latest
+    platform: linux/arm64  # Use ARM64 platform for Apple Silicon
+    depends_on:
+      - cassandra
+    command: >
+      bash -c "echo 'Waiting for Cassandra to start...' &&
+               sleep 60 &&
+               echo 'Creating keyspace and tables...' &&
+               cqlsh cassandra -e \"CREATE KEYSPACE IF NOT EXISTS glowsky WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\" &&
+               echo 'Cassandra initialization completed'"
+    networks:
+      - glowsky-network
+
+  # Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    platform: linux/arm64  # Use ARM64 platform for Apple Silicon
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-log:/var/lib/zookeeper/log
+    networks:
+      - glowsky-network
+
+  # Kafka
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    platform: linux/arm64  # Use ARM64 platform for Apple Silicon
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      - glowsky-network
+
+  # Kafka initialization - creates required topics
+  kafka-init:
+    image: confluentinc/cp-kafka:latest
+    platform: linux/arm64  # Use ARM64 platform for Apple Silicon
+    depends_on:
+      - kafka
+    command: >
+      bash -c "echo 'Waiting for Kafka to start...' &&
+               sleep 60 &&
+               echo 'Creating Kafka topics...' &&
+               kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic post-events --partitions 3 --replication-factor 1 &&
+               kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic user-events --partitions 3 --replication-factor 1 &&
+               echo 'Kafka topics created'"
+    networks:
+      - glowsky-network
+
+  # Redis
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - glowsky-network
+
+  # Jaeger
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+    networks:
+      - glowsky-network
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - glowsky-network
+
+  # Grafana for visualizing Prometheus metrics
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - glowsky-network
+    depends_on:
+      - prometheus
+
+  # Kafka UI for managing Kafka
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    platform: linux/arm64  # Use ARM64 platform for Apple Silicon
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=glowsky-kafka
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    depends_on:
+      - kafka
+    networks:
+      - glowsky-network
+
+networks:
+  glowsky-network:
+    driver: bridge
+
+volumes:
+  cassandra-data:
+  zookeeper-data:
+  zookeeper-log:
+  kafka-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:

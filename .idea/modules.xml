@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/glowsky-server.iml" filepath="$PROJECT_DIR$/glowsky-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/kafka/glowsky-server.common.kafka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/kafka/glowsky-server.common.kafka.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/notification-service/glowsky-server.notification-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/notification-service/glowsky-server.notification-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/post-service/glowsky-server.post-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/post-service/glowsky-server.post-service.main.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,115 @@
+[versions]
+springframework = "3.2.4"
+dependencymanagement = "1.1.3"
+graalvm = "0.9.28"
+postgresql = "42.7.3"
+validation = "3.0.2"
+securitytest = "6.1.5"
+jwt = "4.4.0"
+security-crypto =  "6.1.5"
+lombok = "1.18.30"
+jsonwebtoken = "0.11.5"
+swagger2 = "3.0.0"
+swaggerui = "3.0.0"
+foxbeanvalidators = "3.0.0"
+foxbootstarter = "3.0.0"
+webmvc = "6.1.5"
+springvalidation = "3.2.2"
+javaxvalidation = "2.0.1.Final"
+javaxpersistence= "3.2.0-M2"
+fasterxml = "2.16.1"
+avro = "1.11.3"
+kafkaclients = "3.3.1"
+kafkaspring = "3.1.1"
+fxmljacksoncore = "2.16.1"
+fxmldatabind = "2.16.1"
+javaxapi = "1.3.2"
+javaxtransaction = "1.2"
+integration-amqp = "6.2.2"
+integration-http = "6.2.2"
+integration-security = "6.2.2"
+rabbit-test = "3.1.2"
+integration-test = "6.2.2"
+data-jdbc = "3.2.3"
+integration-jdbc = "6.2.2"
+jdbcsession = "3.2.1"
+reactortest = "3.6.4"
+jdbc = "3.2.3"
+authorization = "3.2.4"
+data-redis = "3.2.4"
+dynamodb = "1.12.685"
+socialsignin = "4.2.0"
+lettuce = "6.3.2.RELEASE"
+awssecretsmanager = "1.12.685"
+springdynamodb = "5.1.0"
+avroplugin = "1.9.1"
+springtx = "6.1.5"
+codec = "1.16.1"
+authjwt = "4.4.0"
+springdataredis = "3.2.4"
+awssdks3 = "2.15.30"
+firebase-firestore = "25.1.2"
+
+[libraries]
+data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springframework" }
+starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springframework" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springframework" }
+validation = { module = "jakarta.validation:jakarta.validation-api", version.ref = "validation" }
+starter-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "springframework" }
+security-test = { module = "org.springframework.security:spring-security-test", version.ref = "securitytest" }
+jwt = { module = "com.auth0:java-jwt", version.ref = "jwt" }
+security-crypto = { module = "org.springframework.security:spring-security-crypto", version.ref = "security-crypto" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+jsonwebtoken = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jsonwebtoken" }
+swagger2 = { module = "io.springfox:springfox-swagger2", version.ref = "swagger2" }
+swaggerui = { module = "io.springfox:springfox-swagger-ui", version.ref = "swaggerui" }
+foxbeanvalidators = { module = "io.springfox:springfox-bean-validators", version.ref = "foxbeanvalidators" }
+foxbootstarter = { module = "io.springfox:springfox-boot-starter", version.ref = "foxbootstarter" }
+webmvc = { module = "org.springframework:spring-webmvc", version.ref = "webmvc" }
+springvalidation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "springvalidation" }
+javaxvalidation = { module = "javax.validation:validation-api", version.ref = "javaxvalidation" }
+javaxpersistence = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "javaxpersistence" }
+fasterxml = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "fasterxml" }
+avro = { module = "org.apache.avro:avro", version.ref = "avro" }
+kafkaclients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafkaclients" }
+kafkaspring = { module = "org.springframework.kafka:spring-kafka", version.ref = "kafkaspring" }
+fxmljacksoncore = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "fxmljacksoncore" }
+fxmldatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "fxmldatabind" }
+javaxapi = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxapi" }
+javaxtransaction = { module = "javax.transaction:javax.transaction-api", version.ref = "javaxtransaction" }
+jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc", version.ref = "jdbc" }
+jdbcsession = { module = "org.springframework.session:spring-session-jdbc", version.ref = "jdbcsession" }
+authorization = { module = "org.springframework.boot:spring-boot-starter-oauth2-authorization-server", version.ref = "authorization" }
+oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "springframework" }
+webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "springframework" }
+gateway = { module = "org.springframework.cloud:spring-cloud-starter-gateway", version.ref = "springframework" }
+reactortest = { module = "io.projectreactor:reactor-test", version.ref = "reactortest" }
+amqp = { module = "org.springframework.boot:spring-boot-starter-amqp", version.ref = "springframework" }
+integration = { module = "org.springframework.boot:spring-boot-starter-integration", version.ref = "springframework" }
+resourceserver = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server", version.ref = "springframework" }
+starterjson = { module = "org.springframework.boot:spring-boot-starter-json", version.ref = "springframework" }
+integration-amqp = { module = "org.springframework.integration:spring-integration-amqp", version.ref = "integration-amqp" }
+integration-http = { module = "org.springframework.integration:spring-integration-http", version.ref = "integration-http" }
+integration-security = { module = "org.springframework.integration:spring-integration-security", version.ref = "integration-security" }
+rabbit-test = { module = "org.springframework.amqp:spring-rabbit-test", version.ref = "rabbit-test" }
+integration-test = { module = "org.springframework.integration:spring-integration-test", version.ref = "integration-test" }
+data-jdbc = { module = "org.springframework.boot:spring-boot-starter-data-jdbc", version.ref = "data-jdbc" }
+integration-jdbc = { module = "org.springframework.integration:spring-integration-jdbc", version.ref = "integration-jdbc" }
+data-redis = { module = "org.springframework.data:spring-data-redis", version.ref = "data-redis" }
+dynamodb = { module = "com.amazonaws:aws-java-sdk-dynamodb", version.ref = "dynamodb" }
+springdynamodb = { module = "com.github.derjust:spring-data-dynamodb", version.ref = "springdynamodb" }
+lettuce = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
+awssecretsmanager = { module = "com.amazonaws:aws-java-sdk-secretsmanager", version.ref = "awssecretsmanager" }
+springtx = { module = "org.springframework:spring-tx", version.ref = "springtx" }
+codec = { module = "commons-codec:commons-codec", version.ref = "codec" }
+authjwt = { module = "com.auth0:java-jwt", version.ref = "authjwt" }
+springdataredis = { module = "org.springframework.data:spring-data-redis", version.ref = "springdataredis" }
+awssdks3 = { module = "software.amazon.awssdk:s3", version.ref = "awssdks3" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebase-firestore" }
+
+[plugins]
+springframework = { id = "org.springframework.boot", version.ref = "springframework" }
+dependencymanagement = { id = "io.spring.dependency-management", version.ref = "dependencymanagement" }
+graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
+avroplugin = { id = "com.github.davidmc24.gradle.plugin.avro", version.ref = "avroplugin" }

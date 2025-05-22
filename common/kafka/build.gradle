@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.springframework)
+    alias(libs.plugins.dependencymanagement)
+}
+
+group = "com.glowsky"
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = '21'
+}
+
+dependencies {
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.apache.kafka:kafka-clients'
+    implementation 'org.apache.avro:avro:1.11.4'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+
+    implementation(libs.lombok)
+    annotationProcessor(libs.lombok)
+}

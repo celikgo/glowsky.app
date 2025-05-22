@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.springframework)
+    alias(libs.plugins.dependencymanagement)
+}
+
+group = "com.glowsky"
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = '21'
+}
+
+dependencies {
+    implementation project(':common:kafka')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Cassandra for high write throughput
+    implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+
+    // Redis for caching
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Observability
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
+
+    // Kafka
+    implementation (libs.kafkaspring)
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    implementation(libs.lombok)
+    annotationProcessor(libs.lombok)
+}
